@@ -36,7 +36,6 @@ server.get('/', (req, res) => {
     {
         website = path.join(__dirname, "../client/login.html");
         //needs to sent back to the html page "please fill your details"
-        res.render(website,{alertM: "please fill all the data"})
     }
     else{
         website = path.join(__dirname, "../client/index.html");
