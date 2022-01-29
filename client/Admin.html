@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://img.icons8.com/nolan/64/commercial.png">
+    <title>Admin Page</title>
+    <!-- INCLUDING JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="module" src="Admin.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+  
+<body>
+    <section>
+        <h1>Advertisements System-Admin Page</h1>
+        <br>
+        <h1>The Advertisements</h1>
+        <table id='adsTable'>
+            <tr>
+              <th>Name</th>
+              <th>Screen Number</th>
+              <th>Template</th>
+              <th>Length</th>
+              <th>Starting Date</th>
+              <th>Ending Date</th>
+              <th>Starting Time</th>
+              <th>Ending Time</th>
+            </tr>
+        </table>
+            <br>
+            <h1>All Screens- sorted by last connection time</h1>
+            <table id='screensTable'>
+                <tr>
+                  <th>Screen Number</th>
+                  <th>Last Connection Date And Time</th>
+                </tr>
+            </table>
+            <br>
+    </section>
+</body>
+
+</html>
