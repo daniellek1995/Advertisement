@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const { ScreenModel } = require('./DataBase/ScreenEntity');
 const { setupDatabase, fetchAdvertismentByScreenId,findIfAdminExists, fetchAllAdvertisment, fetchAllScreensData } = require('./MongoUtils');
@@ -15,26 +16,25 @@ setupDatabase();
 
 const server = express();
 
+server.use(express.json())
+server.use(cors());
+
 /**
     Return the html page to the client.
 */
 server.get('/', (req, res) => {
-
     const screenId = Number(req.query.id);
     print(`New connection from screen ID=${screenId}`);
-
     ScreenModel.find({_id: screenId},function(err,result){
-
         if(result.length==0 && screenId!=0){//If this screen id is not already in the database and the id isn't admin-"0"
             var screen = new ScreenModel({ _id: screenId, lastConnection: null});
-            screen.save();
-        }
+            screen.save();}
     });
-
     // Sending html page to the client
     if (Number(req.query.id) == 0)
     {
         website = path.join(__dirname, "../client/login.html");
+        
         //needs to sent back to the html page "please fill your details"
     }
     else{
@@ -42,42 +42,26 @@ server.get('/', (req, res) => {
     }
     return res.sendFile(website);
 });
+server.get('/admin', (req, res) => {
 
 
-//  server.get('/login', async (req, res) => {// Sending html page to the client
-//      //const userName = req.query.userName;
-//     // const password = req.query.password;
-//     const trueOrFalse = await findIfAdminExists("admin","password");
-//     if(trueOrFalse.length==1){
-//         console.log("found");
-//         website = path.join(__dirname, "../client/Admin.html");
-//         return res.sendFile(website)
-//     } 
-//     else{
-//         console.log("not found");
-//         website = path.join(__dirname, "../client/index.html");
-//     return res.sendFile(website);
-//     }
-// });
+    
+    website = path.join(__dirname, "../client/Admin.html");
+     
+    return res.sendFile(website);
+});
+
 //right function validate if admin exists
 server.post('/check-admin',urlEncodedParser, async function(req,res){
     const psw =  req.body.psw;
     const userName = req.body.uname;
     const trueOrFalse = await findIfAdminExists(userName,psw);
     if(trueOrFalse.length==1){
-        console.log("found");
-        website = path.join(__dirname, "../client/Admin.html");
-        return res.sendFile(website)
+        return res.json({isAdmin:true})
     } 
     else{
         console.log("not found");
-        const alert = "admin not found";
-        website = path.join(__dirname, "../client/login.html");
-        return res.sendFile(website)
-        res.render('login',{
-            alert
-        })
-
+        return res.json({isAdmin:false})
     }
 
      
