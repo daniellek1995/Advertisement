@@ -7,21 +7,14 @@ const { setupDatabase, fetchAdvertismentByScreenId,findIfAdminExists, fetchAllAd
 const PORT = 3000;
 const SCREEN_NUMBER = 3;
 const urlEncodedParser = bodyParser.urlencoded({ extended: false })
-// const fs = require('fs');
-
-// const {check, validationResult } = reqire('express-validator')
 const print = (data) => { console.log(data) };
 
 setupDatabase();
 
 const server = express();
-
 server.use(express.json())
 server.use(cors());
 
-/**
-    Return the html page to the client.
-*/
 server.get('/', (req, res) => {
     const screenId = Number(req.query.id);
     print(`New connection from screen ID=${screenId}`);
@@ -33,9 +26,7 @@ server.get('/', (req, res) => {
     // Sending html page to the client
     if (Number(req.query.id) == 0)
     {
-        website = path.join(__dirname, "../client/login.html");
-        
-        //needs to sent back to the html page "please fill your details"
+        website = path.join(__dirname, "../client/login.html");        
     }
     else{
         website = path.join(__dirname, "../client/index.html");
@@ -43,11 +34,7 @@ server.get('/', (req, res) => {
     return res.sendFile(website);
 });
 server.get('/admin', (req, res) => {
-
-
-    
-    website = path.join(__dirname, "../client/Admin.html");
-     
+    website = path.join(__dirname, "../client/Admin.html");     
     return res.sendFile(website);
 });
 
