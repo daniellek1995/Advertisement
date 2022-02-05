@@ -15,15 +15,14 @@
 
 window.onload = () => {
   document.querySelector("form").addEventListener("submit",formLoginSubmit)
+  $('#alertId').append("please fill all data");
 }
   async function formLoginSubmit(e){
       e.preventDefault();
 
       let psw = document.getElementById("psw").value;
       let uname = document.getElementById("username").value;
-
       let body = {psw,uname};
-
       try {
         
         let f = await fetch("http://localhost:3000/check-admin",{
@@ -39,7 +38,7 @@ window.onload = () => {
         if(j.isAdmin){
           window.location.href = "http://localhost:3000/admin"
         }else{
-
+           document.getElementById("alertId").innerHTML = "Wrong User name/Password";
         }
       
       } catch (error) {
@@ -55,11 +54,9 @@ window.onload = () => {
 
 
 
-<!-- <script>console.log(res)</script> -->
 <h2>Administrator Login</h2>
     <div class="alert alert-warning alert-dismissible fade show" id = "alertId" role="alert">
       <strong></strong> 
-      <script></script>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <script>
