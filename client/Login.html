@@ -3,69 +3,65 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="icon" href="https://img.icons8.com/nolan/64/commercial.png">
+    <link rel="icon" href="https://img.icons8.com/glyph-neue/64/000000/tv-show.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <title>Login</title>
 </head>
-  <body style="text-align: center; margin: 0 auto">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <body class="container">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <script>
 
-
-window.onload = () => {
-  document.querySelector("form").addEventListener("submit",formLoginSubmit)
-  $('#alertId').append("Please fill your user name and password in order to login");
-}
-  async function formLoginSubmit(e){
-      e.preventDefault();
-      let psw = document.getElementById("psw").value;
-      let uname = document.getElementById("username").value;
-      let body = {psw,uname};
-      try {
-        let f = await fetch("http://localhost:3000/check-admin",{
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method:"POST",
-          body:JSON.stringify(body)
-        });
-        let j = await f.json();
-        if(j.isAdmin){
-          window.location.href = "http://localhost:3000/admin"
-        }else{
-           document.getElementById("alertId").innerHTML = "Invalid User name/Password";
-        }
-      } catch (error) {
-      }
+  window.onload = () => {
+    document.querySelector("form").addEventListener("submit",formLoginSubmit)
+    $('#alertId').append("Please fill your user name and password in order to login");
   }
-</script>
+    async function formLoginSubmit(e){
+        e.preventDefault();
+        let psw = document.getElementById("psw").value;
+        let uname = document.getElementById("username").value;
+        let body = {psw,uname};
+        try {
+          let f = await fetch("http://localhost:3000/check-admin",{
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method:"POST",
+            body:JSON.stringify(body)
+          });
+          let j = await f.json();
+          if(j.isAdmin){
+            localStorage.setItem('Advertisment-token',j.token);
+            localStorage.setItem('userName',j.userName);
+            window.location.href = "http://localhost:3000/admin";
 
-
-
-<h2>Administrator Login</h2>
-    <div class="alert alert-warning alert-dismissible fade show" id = "alertId" role="alert">
-      <strong></strong> 
+          }else{
+             document.getElementById("alertId").innerHTML = "Wrong User name/Password";
+          }
+        } catch (error) {
+        }
+    }
+  </script>
+      <section class='login' id='login'>
+        <div class='head'>
+    <h1 class='company'>Administrator Login</h1>
+</div>
+<p class='msg'>Welcome back</p>
+<div class='form'>
+  <!-- "alert alert-warning alert-dismissible fade show" -->
+ 
+    <div class="alert alert-secondary" id = "alertId" role="alert">
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <script>
-    </script>
     <form action ="/check-admin" method="POST">
-      <div class="imgcontainer">
-        <img src="./img/profile-user.png" alt="Avatar" class="avatar">
-        </div>
-    <hr>
-    <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" id="username" required/>
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required/>
-    <input type="submit" class="loginbtn" value="login"/>
-
-    
-</div>  
+    <input type="text" placeholder="Enter Username" class='text' name="uname" id="username" required/>
+    <input type="password" placeholder="Enter Password" class='password' name="psw" id="psw" required/>
+    <input type="submit" class="btn-login" value="login" a href="#" id='do-login'/>
 </form>
+
+</section>
 </body>
 
 </html>
